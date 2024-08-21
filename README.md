@@ -9,8 +9,8 @@
 
 ### Business Rules
 
-- [] To list PET's its obligated to informa a city
-- [] An ORG (organization) need to has an address and a WhatsApp number
+- [] To list PET's its obligated to inform a city
+- [] An ORG (organization) needs to has an address and a WhatsApp number
 - [] A PET must to be relationed to an ORG (organization)
 - [] An user which want to adopt a PET, will contact an ORG (organization) by WhatsApp
 - [] All filters beyond city are optionals
