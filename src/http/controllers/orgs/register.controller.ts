@@ -15,7 +15,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       name: z.string(),
       phone: z.string(),
       email: z.string(),
-      password: z.string(),
+      password: z.string().min(6),
       cep: z.string(),
       state: z.string(),
       city: z.string(),
@@ -61,6 +61,6 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
     if (err instanceof EmailAlreadyExistsError) {
       reply.status(409).send({ message: err.message });
     }
-    reply.status(400).send({ message: err });
+    throw err;
   }
 }
