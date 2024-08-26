@@ -1,8 +1,8 @@
 import { EmailAlreadyExistsError } from "@/errors/email-already-exists.error";
 import { OrgsRepositoryInterface } from "@/repositories/orgs-repository.interface";
+import { hash } from "bcrypt";
 
 interface RegisterUseCaseInterface {
-  id: string;
   name: string;
   phone: string;
   email: string;
@@ -19,7 +19,6 @@ interface RegisterUseCaseInterface {
 export class RegisterUseCase {
   constructor(private orgRepository: OrgsRepositoryInterface) {}
   async execute({
-    id,
     name,
     phone,
     email,
@@ -32,16 +31,18 @@ export class RegisterUseCase {
     latitude,
     longitude,
   }: RegisterUseCaseInterface) {
-    const org = await this.orgRepository.findByEmail(email);
-    if (org) {
+    const orgWithSameEmail = await this.orgRepository.findByEmail(email);
+
+    if (orgWithSameEmail) {
       throw new EmailAlreadyExistsError();
     }
-    await this.orgRepository.create({
-      id,
+
+    const passwordHash = await hash(password, 6);
+    const org = await this.orgRepository.create({
       name,
       phone,
       email,
-      password,
+      password: passwordHash,
       cep,
       state,
       city,
@@ -50,5 +51,7 @@ export class RegisterUseCase {
       latitude,
       longitude,
     });
+
+    return org;
   }
 }

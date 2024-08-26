@@ -39,14 +39,11 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       longitude,
     } = registerBodySchema.parse(request.body);
 
-    const passwordHash = await hash(password, 6);
-
     await registerUseCase.execute({
-      id: randomUUID(),
       name,
       phone,
       email,
-      password: passwordHash,
+      password,
       cep,
       state,
       city,
