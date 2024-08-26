@@ -4,7 +4,7 @@
 - [] Should be possible to list all availables PET's in a determined city / location
 - [] Should be possible filter PET's by it's Characteristic
 - [] Should be possible to show up a PET detail to adoption
-- [] Should be possible to register an ORG (organization)
+- [x] Should be possible to register an ORG (organization)
 - [] Should be possible to login as an ORG (organization)
 
 ### Business Rules
