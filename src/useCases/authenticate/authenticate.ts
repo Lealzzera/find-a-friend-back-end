@@ -1,5 +1,6 @@
 import { InvalidOrgCredentialsError } from "@/errors/invalid-org-credentials.error";
 import { OrgsRepositoryInterface } from "@/repositories/orgs-repository.interface";
+import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
 import { Org } from "@prisma/client";
 import { compare } from "bcrypt";
 
@@ -9,10 +10,10 @@ interface AuthenticateUseCaseRequestInterface {
 }
 
 interface AuthenticateUseCaseResponseInterface {
-  org: Org | null;
+  org: Org;
 }
 
-export class Authenticate {
+export class AuthenticateUseCase {
   constructor(private orgRepository: OrgsRepositoryInterface) {}
   async exec({
     email,
