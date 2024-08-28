@@ -4,7 +4,10 @@ import { makeRegisterPetUseCase } from "@/useCases/factories/make-register-pet-u
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
-export async function register(request: FastifyRequest, reply: FastifyReply) {
+export async function registerPet(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
   try {
     const registerPetUseCase = makeRegisterPetUseCase();
     const registerPetBodySchema = z.object({
