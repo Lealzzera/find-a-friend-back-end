@@ -39,8 +39,9 @@ export class RegisterPetUseCase {
     if (!org) {
       throw new ResourceDoesNotExistError();
     }
+    const validSizes: Size[] = ["SMALL", "MEDIUM", "LARGE"];
 
-    if (!size.includes(size as Size)) {
+    if (!validSizes.includes(size as Size)) {
       throw new InvalidSizeError();
     }
     const pet = await this.petsRepository.create({
