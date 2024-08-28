@@ -1,7 +1,8 @@
+import { InvalidSizeError } from "@/errors/invalid-size.error";
 import { ResourceDoesNotExistError } from "@/errors/resource-does-not-exist.error";
 import { OrgsRepositoryInterface } from "@/repositories/orgs-repository.interface";
 import { PetsRepositoryInterface } from "@/repositories/pets-repository.interface";
-import { Pet } from "@prisma/client";
+import { Pet, Size } from "@prisma/client";
 
 interface RegisterPetUseCaseRequestInterface {
   name: string;
@@ -39,6 +40,9 @@ export class RegisterPetUseCase {
       throw new ResourceDoesNotExistError();
     }
 
+    if (!size.includes(size as Size)) {
+      throw new InvalidSizeError();
+    }
     const pet = await this.petsRepository.create({
       name,
       breed,
