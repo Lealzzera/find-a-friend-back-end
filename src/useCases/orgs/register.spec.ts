@@ -1,16 +1,16 @@
 import { it, describe, expect, beforeEach } from "vitest";
-import { RegisterUseCase } from "./register";
+import { RegisterOrgUseCase } from "./register";
 import { InMemoryOrgRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 import { compare, hash } from "bcrypt";
 import { EmailAlreadyExistsError } from "@/errors/email-already-exists.error";
 
 let inMemoryOrgRepository: InMemoryOrgRepository;
-let sut: RegisterUseCase;
+let sut: RegisterOrgUseCase;
 
 describe("register use case tests", () => {
   beforeEach(() => {
     inMemoryOrgRepository = new InMemoryOrgRepository();
-    sut = new RegisterUseCase(inMemoryOrgRepository);
+    sut = new RegisterOrgUseCase(inMemoryOrgRepository);
   });
 
   it("should be able to register an ORG", async () => {

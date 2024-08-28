@@ -3,7 +3,7 @@ import { OrgsRepositoryInterface } from "@/repositories/orgs-repository.interfac
 import { Org } from "@prisma/client";
 import { hash } from "bcrypt";
 
-interface RegisterUseCaseRequestInterface {
+interface RegisterOrgUseCaseRequestInterface {
   name: string;
   phone: string;
   email: string;
@@ -17,11 +17,11 @@ interface RegisterUseCaseRequestInterface {
   longitude: number;
 }
 
-interface RegisterUseCaseResponseInterface {
+interface RegisterOrgUseCaseResponseInterface {
   org: Org;
 }
 
-export class RegisterUseCase {
+export class RegisterOrgUseCase {
   constructor(private orgRepository: OrgsRepositoryInterface) {}
   async exec({
     name,
@@ -35,7 +35,7 @@ export class RegisterUseCase {
     neighborhood,
     latitude,
     longitude,
-  }: RegisterUseCaseRequestInterface): Promise<RegisterUseCaseResponseInterface> {
+  }: RegisterOrgUseCaseRequestInterface): Promise<RegisterOrgUseCaseResponseInterface> {
     const orgWithSameEmail = await this.orgRepository.findByEmail(email);
 
     if (orgWithSameEmail) {

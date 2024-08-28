@@ -28,4 +28,9 @@ export class InMemoryOrgRepository implements PrismaOrgsRepository {
 
     return org ? org : null;
   }
+
+  async findById(id: string): Promise<Org | null> {
+    const org = this.orgDatabase.find((org) => org.id === id);
+    return org ? org : null;
+  }
 }

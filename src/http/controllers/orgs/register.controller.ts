@@ -1,11 +1,11 @@
 import { EmailAlreadyExistsError } from "@/errors/email-already-exists.error";
-import { makeRegisterUseCase } from "@/useCases/factories/make-register-use-case";
+import { makeRegisterOrgUseCase } from "@/useCases/factories/make-register-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
   try {
-    const registerUseCase = makeRegisterUseCase();
+    const RegisterOrgUseCase = makeRegisterOrgUseCase();
 
     const registerBodySchema = z.object({
       name: z.string(),
@@ -35,7 +35,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       longitude,
     } = registerBodySchema.parse(request.body);
 
-    await registerUseCase.exec({
+    await RegisterOrgUseCase.exec({
       name,
       phone,
       email,
