@@ -1,6 +1,5 @@
 import { ResourceDoesNotExistError } from "@/errors/resource-does-not-exist.error";
-import { PrismaPetsRepository } from "@/repositories/prisma/prisma-pets-repository";
-import { ListAllPetsUseCase } from "@/useCases/pet/listAllPets";
+import { makeListAllPetsUseCase } from "@/useCases/factories/make-list-all-pets-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -22,8 +21,8 @@ export async function listAllPets(
 
     const { name, breed, color, size, type, description, age, city } =
       listAllPetsQuerySchema.parse(request.query);
-    const petsRepository = new PrismaPetsRepository();
-    const listAllPetsUseCase = new ListAllPetsUseCase(petsRepository);
+
+    const listAllPetsUseCase = makeListAllPetsUseCase();
 
     const petsList = await listAllPetsUseCase.exec({
       name,
