@@ -7,10 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Size {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
 model Pet {
   id          String @id @default(cuid())
   name        String
   breed       String
+  color       String
+  size        Size
   type        String
   description String
   age         String
