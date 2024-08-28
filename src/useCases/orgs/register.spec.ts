@@ -1,15 +1,21 @@
-import { it, describe, expect } from "vitest";
+import { it, describe, expect, beforeEach } from "vitest";
 import { RegisterUseCase } from "./register";
 import { InMemoryOrgRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 import { compare, hash } from "bcrypt";
 import { EmailAlreadyExistsError } from "@/errors/email-already-exists.error";
 
+let inMemoryOrgRepository: InMemoryOrgRepository;
+let sut: RegisterUseCase;
+
 describe("register use case tests", () => {
+  beforeEach(() => {
+    inMemoryOrgRepository = new InMemoryOrgRepository();
+    sut = new RegisterUseCase(inMemoryOrgRepository);
+  });
+
   it("should be able to register an ORG", async () => {
-    const inMemoryRepository = new InMemoryOrgRepository();
-    const registerUseCase = new RegisterUseCase(inMemoryRepository);
     const passwordHashed = await hash("test123456", 6);
-    const { org } = await registerUseCase.execute({
+    const { org } = await sut.exec({
       name: "test ORG",
       email: "test@test.com",
       phone: "11999999999",
@@ -27,10 +33,8 @@ describe("register use case tests", () => {
   });
 
   it("should not be able to register with same email twice", async () => {
-    const inMemoryRepository = new InMemoryOrgRepository();
-    const registerUseCase = new RegisterUseCase(inMemoryRepository);
     const passwordHashed = await hash("test123456", 6);
-    await registerUseCase.execute({
+    await sut.exec({
       name: "test ORG",
       email: "test@test.com",
       phone: "11999999999",
@@ -45,7 +49,7 @@ describe("register use case tests", () => {
     });
 
     await expect(
-      registerUseCase.execute({
+      sut.exec({
         name: "test ORG",
         email: "test@test.com",
         phone: "11999999999",
@@ -62,9 +66,7 @@ describe("register use case tests", () => {
   });
 
   it("should password be hashed", async () => {
-    const inMemoryRepository = new InMemoryOrgRepository();
-    const registerUseCase = new RegisterUseCase(inMemoryRepository);
-    const { org } = await registerUseCase.execute({
+    const { org } = await sut.exec({
       name: "test ORG",
       email: "test@test.com",
       phone: "11999999999",

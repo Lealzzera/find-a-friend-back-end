@@ -1,16 +1,21 @@
-import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { AuthenticateUseCase } from "./authenticate";
 import { hash } from "bcrypt";
 import { InMemoryOrgRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 import { InvalidOrgCredentialsError } from "@/errors/invalid-org-credentials.error";
 
+let inMemoryOrgRepository: InMemoryOrgRepository;
+let sut: AuthenticateUseCase;
+
 describe("Authenticate use case tests", () => {
+  beforeEach(() => {
+    inMemoryOrgRepository = new InMemoryOrgRepository();
+    sut = new AuthenticateUseCase(inMemoryOrgRepository);
+  });
+
   it("should be able to authenticate", async () => {
-    const orgRepository = new InMemoryOrgRepository();
-    const sut = new AuthenticateUseCase(orgRepository);
     const password = "test123456";
-    const orgRegistered = await orgRepository.create({
+    const orgRegistered = await inMemoryOrgRepository.create({
       name: "test ORG",
       email: "test@test.com",
       phone: "11999999999",
@@ -33,9 +38,7 @@ describe("Authenticate use case tests", () => {
   });
 
   it("should not be able to authenticate with wrong password", async () => {
-    const orgRepository = new InMemoryOrgRepository();
-    const sut = new AuthenticateUseCase(orgRepository);
-    const orgRegistered = await orgRepository.create({
+    const orgRegistered = await inMemoryOrgRepository.create({
       name: "test ORG",
       email: "test@test.com",
       phone: "11999999999",
@@ -58,8 +61,6 @@ describe("Authenticate use case tests", () => {
   });
 
   it("should not be able to authenticate with wrong password", async () => {
-    const orgRepository = new InMemoryOrgRepository();
-    const sut = new AuthenticateUseCase(orgRepository);
     await expect(() =>
       sut.exec({
         email: "test@test.com",

@@ -23,7 +23,7 @@ interface RegisterUseCaseResponseInterface {
 
 export class RegisterUseCase {
   constructor(private orgRepository: OrgsRepositoryInterface) {}
-  async execute({
+  async exec({
     name,
     phone,
     email,

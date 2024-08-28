@@ -1,6 +1,5 @@
 import { InvalidOrgCredentialsError } from "@/errors/invalid-org-credentials.error";
 import { OrgsRepositoryInterface } from "@/repositories/orgs-repository.interface";
-import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
 import { Org } from "@prisma/client";
 import { compare } from "bcrypt";
 

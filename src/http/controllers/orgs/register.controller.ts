@@ -1,8 +1,6 @@
 import { EmailAlreadyExistsError } from "@/errors/email-already-exists.error";
 import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
 import { RegisterUseCase } from "@/useCases/orgs/register";
-import { hash } from "bcrypt";
-import { randomUUID } from "crypto";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -39,7 +37,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       longitude,
     } = registerBodySchema.parse(request.body);
 
-    await registerUseCase.execute({
+    await registerUseCase.exec({
       name,
       phone,
       email,
