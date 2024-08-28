@@ -5,7 +5,7 @@
 - [] Should be possible filter PET's by it's Characteristic
 - [] Should be possible to show up a PET detail to adoption
 - [x] Should be possible to register an ORG (organization)
-- [] Should be possible to login as an ORG (organization)
+- [x] Should be possible to login as an ORG (organization)
 
 ### Business Rules
 

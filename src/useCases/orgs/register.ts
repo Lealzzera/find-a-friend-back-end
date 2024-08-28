@@ -1,8 +1,9 @@
 import { EmailAlreadyExistsError } from "@/errors/email-already-exists.error";
 import { OrgsRepositoryInterface } from "@/repositories/orgs-repository.interface";
+import { Org } from "@prisma/client";
 import { hash } from "bcrypt";
 
-interface RegisterUseCaseInterface {
+interface RegisterUseCaseRequestInterface {
   name: string;
   phone: string;
   email: string;
@@ -14,6 +15,10 @@ interface RegisterUseCaseInterface {
   neighborhood: string;
   latitude: number;
   longitude: number;
+}
+
+interface RegisterUseCaseResponseInterface {
+  org: Org;
 }
 
 export class RegisterUseCase {
@@ -30,7 +35,7 @@ export class RegisterUseCase {
     neighborhood,
     latitude,
     longitude,
-  }: RegisterUseCaseInterface) {
+  }: RegisterUseCaseRequestInterface): Promise<RegisterUseCaseResponseInterface> {
     const orgWithSameEmail = await this.orgRepository.findByEmail(email);
 
     if (orgWithSameEmail) {
@@ -52,6 +57,6 @@ export class RegisterUseCase {
       longitude,
     });
 
-    return org;
+    return { org };
   }
 }

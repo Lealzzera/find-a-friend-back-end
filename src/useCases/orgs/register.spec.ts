@@ -9,7 +9,7 @@ describe("register use case tests", () => {
     const inMemoryRepository = new InMemoryOrgRepository();
     const registerUseCase = new RegisterUseCase(inMemoryRepository);
     const passwordHashed = await hash("test123456", 6);
-    const orgRegistered = await registerUseCase.execute({
+    const { org } = await registerUseCase.execute({
       name: "test ORG",
       email: "test@test.com",
       phone: "11999999999",
@@ -23,7 +23,7 @@ describe("register use case tests", () => {
       longitude: Number("-8219782189"),
     });
 
-    expect(orgRegistered.id).toEqual(expect.any(String));
+    expect(org.id).toEqual(expect.any(String));
   });
 
   it("should not be able to register with same email twice", async () => {
@@ -64,7 +64,7 @@ describe("register use case tests", () => {
   it("should password be hashed", async () => {
     const inMemoryRepository = new InMemoryOrgRepository();
     const registerUseCase = new RegisterUseCase(inMemoryRepository);
-    const orgRegistered = await registerUseCase.execute({
+    const { org } = await registerUseCase.execute({
       name: "test ORG",
       email: "test@test.com",
       phone: "11999999999",
@@ -77,7 +77,7 @@ describe("register use case tests", () => {
       latitude: Number("-102949372"),
       longitude: Number("-8219782189"),
     });
-    const comparePassword = await compare("test123456", orgRegistered.password);
+    const comparePassword = await compare("test123456", org.password);
 
     expect(comparePassword).toBeTruthy();
   });
