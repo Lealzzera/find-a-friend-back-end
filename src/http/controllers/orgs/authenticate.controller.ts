@@ -16,7 +16,8 @@ export async function authenticate(
     const { email, password } = authenticateBodySchema.parse(request.body);
     const { org } = await authenticateUseCase.exec({ email, password });
 
-    return reply.status(200).send({ org });
+    const token = await reply.jwtSign({}, { sign: { sub: org.id } });
+    return reply.status(200).send({ token });
   } catch (err) {
     if (err instanceof InvalidOrgCredentialsError) {
       return reply.status(400).send({ message: err.message });

@@ -14,4 +14,4 @@
 - [x] A PET must to be relationed to an ORG (organization)
 - [x] An user which want to adopt a PET, will contact an ORG (organization) by WhatsApp
 - [x] All filters beyond city are optionals
-- [] An ORG (organization) must to be logged to access the application as an admin.
+- [x] An ORG (organization) must to be logged to access the application as an admin.
