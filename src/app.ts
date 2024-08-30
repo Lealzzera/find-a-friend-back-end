@@ -6,7 +6,10 @@ import { env } from "./env";
 
 export const app = fastify();
 
-app.register(fastifyJwt, { secret: env.JWT_SECRET });
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+  sign: { expiresIn: "10d" },
+});
 
 app.register(routes);
 app.setErrorHandler((error, _, reply) => {
