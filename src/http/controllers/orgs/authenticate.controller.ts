@@ -17,7 +17,20 @@ export async function authenticate(
     const { org } = await authenticateUseCase.exec({ email, password });
 
     const token = await reply.jwtSign({}, { sign: { sub: org.id } });
-    return reply.status(200).send({ token });
+    const refreshToken = await reply.jwtSign(
+      {},
+      { sign: { sub: org.id, expiresIn: "7d" } }
+    );
+
+    return reply
+      .status(200)
+      .setCookie("refreshToken", refreshToken, {
+        path: "/",
+        secure: true,
+        httpOnly: true,
+        sameSite: true,
+      })
+      .send({ token });
   } catch (err) {
     if (err instanceof InvalidOrgCredentialsError) {
       return reply.status(400).send({ message: err.message });
